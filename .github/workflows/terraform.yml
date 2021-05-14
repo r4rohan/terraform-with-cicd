@@ -38,7 +38,12 @@ jobs:
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
-        run: terraform plan -out "tf_plan"
+        run: |
+          ls -la
+          pwd
+          terraform plan -out "tf_plan"
+          ls -la
+          pwd
 
       # Upload tf_plan for 1 hr
       - name: Upload Artifact
