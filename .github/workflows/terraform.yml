@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@master
       
       - name: Setup GCP Service Account
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@master
         with:
           version: 'latest'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
@@ -65,7 +65,7 @@ jobs:
 
     steps:    
       # Download tf_plan artifact
-    - name: Download math result for job 1
+    - name: Download TF Plan
       uses: actions/download-artifact@v2
       with:
         name: tf_plan
@@ -76,6 +76,7 @@ jobs:
       run: |
         ls -la
         pwd
+        ls -la tf_plan
         terraform show "tf_plan"
         
     # Provision resources via Terraform
