@@ -51,4 +51,5 @@ jobs:
         with:
           name: tf_plan
           path: tf_plan
+          run: ls -la && pwd
           retention-days: 1
