@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: examples
+    working-directory: ./examples
 
 jobs:
   terraform:
