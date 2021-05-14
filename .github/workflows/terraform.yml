@@ -1,4 +1,4 @@
-name: terraform
+name: terraform-automation
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
   pull_request:
 
 jobs:
-  terraform:
-    name: 'Terraform Automation'
+  terraform_plan:
+    name: 'Terraform Plan'
     runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -19,14 +19,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-
-      - name: Setup GCP Service Account
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: 'latest'
-          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -52,3 +44,37 @@ jobs:
           name: tf_plan
           path: ./examples/tf_plan
           retention-days: 1
+
+  terraform_apply:
+    name: 'Terraform Apply'
+    runs-on: ubuntu-latest
+    needs: terraform_plan
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./examples
+
+    steps:    
+    - name: Setup GCP Service Account
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: 'latest'
+        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+      
+      # Download tf_plan artifact
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v2
+      with:
+        name: tf_plan
+        path: ./examples/tf_plan
+
+      # Provision resources via Terraform
+    - name: Terraform Apply
+      run: |
+        ls -la
+        pwd
+        terraform apply "tf_plan" --auto-approve
+    
