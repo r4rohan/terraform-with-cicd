@@ -39,18 +39,15 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: |
-          ls -la
-          pwd
           terraform plan -out "tf_plan"
-          ls -la
-          pwd
+          ls -la && pwd
 
       # Upload tf_plan for 1 day
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: ./examples/tf_plan
+          path: ./tf_plan
           retention-days: 1
 
   terraform_apply:
@@ -69,16 +66,18 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: tf_plan
-        path: ./examples/tf_plan
+        path: ./tf_plan
 
     # Show execution plan
     - name: Terraform Show
       run: |
         ls -la && pwd && cd tf_plan && ls -la && pwd
+        terraform init
         terraform show "tf_plan"
         
-    # Provision resources via Terraform
+    # Provision resources via Terraform        
     - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
         terraform apply "tf_plan"
         rm "tf_plan"
