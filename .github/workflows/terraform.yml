@@ -19,6 +19,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+      
+      - name: Setup GCP Service Account
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: 'latest'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -56,14 +64,6 @@ jobs:
         working-directory: ./examples
 
     steps:    
-    - name: Setup GCP Service Account
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        version: 'latest'
-        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
-      
       # Download tf_plan artifact
     - name: Download math result for job 1
       uses: actions/download-artifact@v2
