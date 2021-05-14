@@ -45,7 +45,7 @@ jobs:
           ls -la
           pwd
 
-      # Upload tf_plan for 1 hr
+      # Upload tf_plan for 1 day
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
@@ -71,10 +71,16 @@ jobs:
         name: tf_plan
         path: ./examples/tf_plan
 
-      # Provision resources via Terraform
-    - name: Terraform Apply
+    # Show execution plan
+    - name: Terraform Show
       run: |
         ls -la
         pwd
+        terraform show "tf_plan"
+        
+    # Provision resources via Terraform
+    - name: Terraform Apply
+      run: |
         terraform apply "tf_plan"
+        rm "tf_plan"
     
