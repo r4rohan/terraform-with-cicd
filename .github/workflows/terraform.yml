@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: ./tf_plan
+          path: ./examples/tf_plan
           retention-days: 1
 
   terraform_apply:
@@ -66,7 +66,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: tf_plan
-        path: ./tf_plan
+        path: ./examples/tf_plan
 
     # Show execution plan
     - name: Terraform Show
