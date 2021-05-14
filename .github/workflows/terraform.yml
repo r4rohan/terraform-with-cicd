@@ -50,6 +50,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: tf_plan
-          run: ls -la && pwd
+          path: ./examples/tf_plan
           retention-days: 1
