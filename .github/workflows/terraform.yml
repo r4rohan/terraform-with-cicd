@@ -76,5 +76,5 @@ jobs:
       run: |
         ls -la
         pwd
-        terraform apply "tf_plan" --auto-approve
+        terraform apply "tf_plan"
     
