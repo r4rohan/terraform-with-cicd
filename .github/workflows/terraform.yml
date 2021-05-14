@@ -39,3 +39,11 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: terraform plan -out "tf_plan"
+
+      # Upload tf_plan for 1 hr
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: tf_plan
+          path: tf_plan
+          retention-days: 1
