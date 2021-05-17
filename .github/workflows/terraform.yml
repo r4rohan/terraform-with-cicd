@@ -73,9 +73,10 @@ jobs:
     #   run: terraform init
       
     # Show execution plan
-    - name: Terraform Show
+    - name: Terraform Init and Show
       run: |
         ls -la && pwd && cd tf_plan && ls -la && pwd
+        terraform init
         terraform show "tf_plan"
         
     # Provision resources via Terraform        
