@@ -28,17 +28,12 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      - name: Terraform Init
-        run: terraform init
-
-      # Checks that all Terraform configuration files adhere to a canonical format
-      - name: Terraform Format
-        run: terraform fmt -recursive
-
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
+          "${GITHUB_WORKSPACE}/.github/script.sh"
+
           terraform plan -out "tf_plan"
           ls -la && pwd
 
@@ -78,19 +73,12 @@ jobs:
       with:
         name: tf_plan
         path: ./examples/tf_plan
-      
-    # Show execution plan
-    - name: Terraform Init and Show
-      run: |
-        terraform get
-        terraform init
-        ls -la && pwd && cd tf_plan && ls -la && pwd
-        terraform show "tf_plan"
         
     # Provision resources via Terraform        
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
+        chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
+        "${GITHUB_WORKSPACE}/.github/script.sh"
         terraform apply "tf_plan"
         rm "tf_plan"
-    
