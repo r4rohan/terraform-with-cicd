@@ -31,8 +31,8 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: |
-          chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
-          "${GITHUB_WORKSPACE}/.github/script.sh"
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
 
           terraform plan -out "tf_plan"
           ls -la && pwd
@@ -78,7 +78,7 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
-        chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
-        "${GITHUB_WORKSPACE}/.github/script.sh"
+        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+        "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         terraform apply "tf_plan"
         rm "tf_plan"
