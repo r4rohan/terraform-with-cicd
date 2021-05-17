@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: ./examples/tf_plan
+          path: ./examples/
           retention-days: 1
 
   terraform_apply:
@@ -72,7 +72,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: tf_plan
-        path: ./examples/tf_plan
+        path: ./examples/
         
     # Provision resources via Terraform        
     - name: Terraform Apply
@@ -80,7 +80,6 @@ jobs:
       run: |
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        ls -la && pwd && cd tf_plan
-        terraform show "tf_plan"
+        ls -la && pwd 
         terraform apply "tf_plan"
         rm "tf_plan"
