@@ -60,21 +60,21 @@ jobs:
         shell: bash
         working-directory: ./examples
 
-    steps:    
+    steps: 
+    - name: Checkout
+      uses: actions/checkout@master
+      
       # Download tf_plan artifact
     - name: Download TF Plan
       uses: actions/download-artifact@v2
       with:
         name: tf_plan
         path: ./examples/tf_plan
-    
-    # # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    # - name: Terraform Init
-    #   run: terraform init
       
     # Show execution plan
     - name: Terraform Init and Show
       run: |
+        terraform get
         terraform init
         ls -la && pwd && cd tf_plan && ls -la && pwd
         terraform show "tf_plan"
