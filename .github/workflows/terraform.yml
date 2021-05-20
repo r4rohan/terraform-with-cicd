@@ -34,16 +34,7 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
 
-          terraform plan -out "tf_plan"
-          ls -la && pwd
-
-      # Upload tf_plan for 1 day
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: tf_plan
-          path: ./examples/
-          retention-days: 1
+          terraform plan
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -66,13 +57,6 @@ jobs:
         service_account_email: ${{ secrets.GCP_SA_EMAIL }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
-
-      # Download tf_plan artifact
-    - name: Download TF Plan
-      uses: actions/download-artifact@v2
-      with:
-        name: tf_plan
-        path: ./examples/
         
     # Provision resources via Terraform        
     - name: Terraform Apply
@@ -80,6 +64,4 @@ jobs:
       run: |
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        ls -la && pwd 
-        terraform apply "tf_plan"
-        rm "tf_plan"
+        terraform apply
