@@ -3,19 +3,18 @@ name: terraform-automation
 on: [push, pull_request]
 
 concurrency: 
-  group: ${{ github.ref }}
+  group: ${{ github.action }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./examples
 
 jobs:
   terraform_plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./examples
 
     steps:
       - name: Checkout
@@ -41,11 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: terraform_plan
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./examples
 
     steps: 
     - name: Checkout
