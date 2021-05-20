@@ -2,7 +2,7 @@
 
 variable "gcp_project_id" {
   type        = string
-  default     = "searce-academy"
+  default     = "cloudorbit"
   description = "Id of the GCP project"
 }
 
