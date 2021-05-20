@@ -70,12 +70,34 @@ jobs:
     - uses: actions/checkout@v2
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
+      # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        if github.ref == 'refs/heads/main' && github.event_name == 'push'
+        then
+          job.terraform_apply.status = $JOB_STATUS
+
+        else
+          job.terraform_plan.status = $JOB_STATUS
+
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job.terraform_plan.status && job.terraform_apply.status }}
+        SLACK_COLOR: $JOB_STATUS
         SLACK_ICON: https://github.com/r4rohan.png?size=48
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_USERNAME: captain-alert
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_FOOTER: 'Terraform Github Actions Alert'
+    
+    # - name: Slack Notification
+    #   uses: rtCamp/action-slack-notify@v2
+    #   if: github.event_name == 'pull_request'
+    #   env:
+    #     SLACK_CHANNEL: captain-alert
+    #     SLACK_COLOR: ${{ job.terraform_plan.status }}
+    #     SLACK_ICON: https://github.com/r4rohan.png?size=48
+    #     SLACK_TITLE: ${{ github.repository }}
+    #     SLACK_MESSAGE: ${{ github.event.head_commit.message }}
+    #     SLACK_USERNAME: captain-alert
+    #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    #     SLACK_FOOTER: 'Terraform Github Actions Alert'
