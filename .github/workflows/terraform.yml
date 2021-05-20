@@ -45,13 +45,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: Setup GCP Service Account
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        version: 'latest'
-        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
+    # - name: Setup GCP Service Account
+    #   uses: google-github-actions/setup-gcloud@master
+    #   with:
+    #     version: 'latest'
+    #     service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+    #     service_account_key: ${{ secrets.GCP_SA_KEY }}
+    #     export_default_credentials: true
         
     # Provision resources via Terraform        
     - name: Terraform Apply
