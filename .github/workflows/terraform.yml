@@ -2,7 +2,6 @@ name: terraform-automation
 
 on:
   push:
-    branches: [ main ]
   pull_request:
 
 jobs:
