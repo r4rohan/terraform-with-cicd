@@ -3,7 +3,7 @@ name: terraform-automation
 on: [push, pull_request]
 
 concurrency: 
-  group: ${{ github.action }}
+  group: ${{ github.action == 'terraform-automation' }}
   cancel-in-progress: true
 
 defaults:
