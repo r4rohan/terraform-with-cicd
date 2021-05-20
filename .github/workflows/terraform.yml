@@ -59,3 +59,20 @@ jobs:
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         terraform apply --auto-approve
+
+  slack_notification:
+    name: 'Slack Notification'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: captain-alert
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://github.com/r4rohan.png?size=48
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_TITLE: Terraform Alert
+        SLACK_USERNAME: r4rohan
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
