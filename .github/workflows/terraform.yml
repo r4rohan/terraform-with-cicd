@@ -59,3 +59,4 @@ jobs:
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         terraform apply --auto-approve
+
