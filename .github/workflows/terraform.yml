@@ -1,8 +1,10 @@
 name: terraform-automation
 
-on:
-  push:
-  pull_request:
+on: [push, pull_request]
+
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   terraform_plan:
