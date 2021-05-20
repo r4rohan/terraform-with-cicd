@@ -72,7 +72,8 @@ jobs:
         SLACK_CHANNEL: captain-alert
         SLACK_COLOR: ${{ job.status }}
         SLACK_ICON: https://github.com/r4rohan.png?size=48
-        SLACK_MESSAGE: 'Post Content :rocket:'
         SLACK_TITLE: Terraform Alert
-        SLACK_USERNAME: r4rohan
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_USERNAME: rohan
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_FOOTER: 'Terraform Github Actions Alert'
