@@ -135,7 +135,7 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ echo "::set-output name=job.status.terraform_plan::$(<./examples/tf_apply_job_status.txt.txt)" }}
+        SLACK_COLOR: echo "::set-output name=job.status.terraform_plan::$(<./examples/tf_apply_job_status.txt.txt)"
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
