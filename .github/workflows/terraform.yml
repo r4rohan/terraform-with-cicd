@@ -65,15 +65,14 @@ jobs:
       with:
         name: tf_plan
         path: ./examples
-    - name: Display structure of downloaded files
-      run: ls -R
-      working-directory: ./examples
 
     # Provision resources via Terraform        
     - name: Terraform Apply
       run: |
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+        cd ./examples
+        ls -la
         terraform apply "tf_plan"
         rm "tf_plan"
 
