@@ -133,7 +133,7 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ ::set-output name=job.status::$(<tf_apply_job_status/tf_apply_status.txt) }}
+        SLACK_COLOR: ${{ job.status.terraform_apply }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -144,7 +144,7 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ ::set-output name=job.status::$(<tf_plan_job_status/tf_plan_status.txt) }}
+        SLACK_COLOR: ${{ job.status.terraform_plan }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
