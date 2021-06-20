@@ -34,7 +34,7 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           terraform plan -out "tf_plan"
-          echo ${{ job.status }} > tf_plan_status.txt
+          echo ${{ job.status }} > tf_plan_job_status.txt
       
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
@@ -85,7 +85,7 @@ jobs:
         terraform show "tf_plan"
         terraform apply "tf_plan"
         rm "tf_plan"
-        echo ${{ job.status }} > tf_apply_status.txt
+        echo ${{ job.status }} > tf_apply_job_status.txt
     
     - name: Upload TF Apply Job Status
       uses: actions/upload-artifact@v2
