@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan_status.txt
-          path: ./
+          path: ./examples
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -92,7 +92,7 @@ jobs:
       if: always()
       with:
         name: tf_apply_status.txt
-        path: ./
+        path: ./examples
 
   slack_notification:
     name: 'Slack Notification'
@@ -108,13 +108,13 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: tf_plan_status.txt
-        path: ./
+        path: ./examples
 
     - name: Download TF Apply Job Status
       uses: actions/download-artifact@v2
       with:
         name: tf_apply_status.txt
-        path: ./
+        path: ./examples
     
     - name: Set the statuses of Job 01 and Job 02 as output parameters
       id: set_outputs
@@ -132,7 +132,7 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ steps.set_outputs.outputs.terraform_apply }}
+        SLACK_COLOR: ${{ terraform_apply }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -143,7 +143,7 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ steps.set_outputs.outputs.terraform_plan }}
+        SLACK_COLOR: ${{ terraform_plan }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
