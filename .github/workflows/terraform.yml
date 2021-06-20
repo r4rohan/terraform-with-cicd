@@ -35,6 +35,13 @@ jobs:
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           terraform plan -out "tf_plan"
       
+      - name: Upload .terraform
+        uses: actions/upload-artifact@v2
+        with:
+          name: .terraform
+          path: ./examples
+          if-no-files-found: error
+
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
         with:
@@ -72,6 +79,7 @@ jobs:
     - name: Terraform Apply
       run: |
         ls -la
+        pwd
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         terraform init
@@ -88,7 +96,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2 
 
-    - name: Slack Notification
+    - name: Apply Slack Notification
       uses: rtCamp/action-slack-notify@v2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
@@ -99,7 +107,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_FOOTER: 'Terraform Github Actions Alert'
     
-    - name: Slack Notification
+    - name: Plan Slack Notification
       uses: rtCamp/action-slack-notify@v2
       if: github.event_name == 'pull_request'
       env:
