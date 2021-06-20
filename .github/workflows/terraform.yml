@@ -71,9 +71,10 @@ jobs:
     # Provision resources via Terraform        
     - name: Terraform Apply
       run: |
+        ls -la
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        ls -la
+        terraform init
         terraform show "tf_plan"
         terraform apply "tf_plan"
         rm "tf_plan"
