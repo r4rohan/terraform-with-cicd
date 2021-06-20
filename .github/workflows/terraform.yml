@@ -47,6 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan_status.txt
+          path: ./
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -91,6 +92,7 @@ jobs:
       if: always()
       with:
         name: tf_apply_status.txt
+        path: ./
 
   slack_notification:
     name: 'Slack Notification'
@@ -106,11 +108,13 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: tf_plan_status.txt
+        path: ./
 
     - name: Download TF Apply Job Status
       uses: actions/download-artifact@v2
       with:
         name: tf_apply_status.txt
+        path: ./
     
     - name: Set the statuses of Job 01 and Job 02 as output parameters
       id: set_outputs
