@@ -34,21 +34,22 @@ jobs:
         run: |
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-          terraform plan -out "tf_plan" -input=false 
+          terraform plan -input=false
+        # terraform plan -out "tf_plan" -input=false
       
-      - name: Upload .terraform
-        uses: actions/upload-artifact@v2
-        with:
-          name: .terraform
-          path: ./examples
-          if-no-files-found: error
+      # - name: Upload .terraform
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: .terraform
+      #     path: ./examples
+      #     if-no-files-found: error
 
-      - name: Upload TF Plan
-        uses: actions/upload-artifact@v2
-        with:
-          name: tf_plan
-          path: ./examples
-          if-no-files-found: error
+      # - name: Upload TF Plan
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: tf_plan
+      #     path: ./examples
+      #     if-no-files-found: error
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -70,11 +71,11 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
 
-    - name: Download TF Plan
-      uses: actions/download-artifact@v2
-      with:
-        name: tf_plan
-        path: ./examples
+    # - name: Download TF Plan
+    #   uses: actions/download-artifact@v2
+    #   with:
+    #     name: tf_plan
+    #     path: ./examples
 
     # Provision resources via Terraform        
     - name: Terraform Apply
@@ -83,10 +84,7 @@ jobs:
         pwd
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        terraform init -input=false 
-        terraform show "tf_plan" 
-        terraform apply "tf_plan" -input=false 
-        rm "tf_plan"
+        terraform apply --auto-approve
 
   slack_notification:
     name: 'Slack Notification'
