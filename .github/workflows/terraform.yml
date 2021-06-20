@@ -117,23 +117,23 @@ jobs:
     - name: Display structure of downloaded files
       run: ls -R
     
-    - name: Set the statuses of Job 01 and Job 02 as output parameters
+    - name: Set the statuses of Plan and Apply as output parameters
       id: set_outputs
       run: |
         echo "::set-output name=job.status.terraform_plan::$(<tf_plan_job_status/tf_plan_status.txt)"
         echo "::set-output name=job.status.terraform_apply::$(<tf_apply_job_status/tf_apply_status.txt)"
 
-    # - name: Show the values of the outputs
-    #   run: |
-    #     echo "job.status.terraform_plan = ${{ steps.set_outputs.outputs.terraform_plan }}"
-    #     echo "job.status.terraform_apply = ${{ steps.set_outputs.outputs.terraform_apply }}"  
+    - name: Show the values of the outputs
+      run: |
+        echo "job.status.terraform_plan = ${{ steps.set_outputs.outputs.job.status.terraform_plan }}"
+        echo "job.status.terraform_apply = ${{ steps.set_outputs.outputs.job.status.terraform_apply }}"  
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job.status = ${{ steps.set_outputs.outputs.terraform_apply }} }}
+        SLACK_COLOR: ${{ ::set-output name=job.status::$(<tf_apply_job_status/tf_apply_status.txt) }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -144,7 +144,7 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job.status = ${{ steps.set_outputs.outputs.terraform_plan }} }}
+        SLACK_COLOR: ${{ ::set-output name=job.status::$(<tf_plan_job_status/tf_plan_status.txt) }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
