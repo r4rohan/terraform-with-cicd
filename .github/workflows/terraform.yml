@@ -92,7 +92,7 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job.terraform_apply.status }}
+        SLACK_COLOR: ${{ job.status.terraform_apply }}
         SLACK_ICON: https://github.com/r4rohan.png?size=48
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
@@ -105,7 +105,7 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job.terraform_plan.status }}
+        SLACK_COLOR: ${{ job.status.terraform_plan }}
         SLACK_ICON: https://github.com/r4rohan.png?size=48
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
