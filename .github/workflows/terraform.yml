@@ -46,8 +46,8 @@ jobs:
       - name: Upload TF Plan Job Status
         uses: actions/upload-artifact@v2
         with:
-          name: tf_plan_status.txt
-          path: ./examples
+          name: tf_plan_job_status
+          path: tf_plan_status.txt
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -91,8 +91,8 @@ jobs:
       uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: tf_apply_status.txt
-        path: ./examples
+        name: tf_apply_job_status
+        path: tf_apply_status.txt
 
   slack_notification:
     name: 'Slack Notification'
@@ -107,32 +107,33 @@ jobs:
     - name: Download TF Plan Status
       uses: actions/download-artifact@v2
       with:
-        name: tf_plan_status.txt
-        path: ./examples
+        name: tf_plan_job_status
 
     - name: Download TF Apply Job Status
       uses: actions/download-artifact@v2
       with:
-        name: tf_apply_status.txt
-        path: ./examples
+        name: tf_apply_job_status
+    
+    - name: Display structure of downloaded files
+      run: ls -R
     
     - name: Set the statuses of Job 01 and Job 02 as output parameters
       id: set_outputs
       run: |
-        echo "::set-output name=terraform_plan::$(<terraform_plan/tf_plan_status.txt)"
-        echo "::set-output name=terraform_apply::$(<terraform_apply/tf_apply_status.txt)"
+        echo "::set-output name=job.status.terraform_plan::$(<tf_plan_job_status/tf_plan_status.txt)"
+        echo "::set-output name=job.status.terraform_apply::$(<tf_apply_job_status/tf_apply_status.txt)"
 
-    - name: Show the values of the outputs
-      run: |
-        echo "job.status.terraform_plan = ${{ steps.set_outputs.outputs.terraform_plan }}"
-        echo "job.status.terraform_apply = ${{ steps.set_outputs.outputs.terraform_apply }}"  
+    # - name: Show the values of the outputs
+    #   run: |
+    #     echo "job.status.terraform_plan = ${{ steps.set_outputs.outputs.terraform_plan }}"
+    #     echo "job.status.terraform_apply = ${{ steps.set_outputs.outputs.terraform_apply }}"  
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job.status.terraform_apply }}
+        SLACK_COLOR: ${{ job.status = ${{ steps.set_outputs.outputs.terraform_apply }} }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -143,7 +144,7 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job.status.terraform_plan }}
+        SLACK_COLOR: ${{ job.status = ${{ steps.set_outputs.outputs.terraform_plan }} }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
