@@ -3,7 +3,7 @@ set -o errexit
 
 # initialization of terraform
 terraform get
-terraform init
+terraform init -input=false 
 
 # format checking of terraform
 terraform fmt -recursive

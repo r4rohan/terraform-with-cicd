@@ -30,10 +30,11 @@ jobs:
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
+        continue-on-error: true
         run: |
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-          terraform plan -out "tf_plan"
+          terraform plan -out "tf_plan" -input=false 
       
       - name: Upload .terraform
         uses: actions/upload-artifact@v2
@@ -82,9 +83,9 @@ jobs:
         pwd
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        terraform init
-        terraform show "tf_plan"
-        terraform apply "tf_plan"
+        terraform init -input=false 
+        terraform show "tf_plan" 
+        terraform apply "tf_plan" -input=false 
         rm "tf_plan"
 
   slack_notification:
