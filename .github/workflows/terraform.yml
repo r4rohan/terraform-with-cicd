@@ -33,7 +33,14 @@ jobs:
         run: |
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-          terraform plan
+          terraform plan -out "tf_plan"
+      
+      - name: Upload TF Plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: tf_plan
+          path: ./
+          if-no-files-found: error
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -52,13 +59,22 @@ jobs:
         service_account_email: ${{ secrets.GCP_SA_EMAIL }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
-        
+      
+    - uses: actions/checkout@v2
+
+    - name: Download TF Plan
+      uses: actions/download-artifact@v2
+      with:
+        name: tf_plan
+        path: ./
+
     # Provision resources via Terraform        
     - name: Terraform Apply
       run: |
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        terraform apply --auto-approve
+        terraform apply "tf_plan"
+        rm "tf_plan"
 
   slack_notification:
     name: 'Slack Notification'
