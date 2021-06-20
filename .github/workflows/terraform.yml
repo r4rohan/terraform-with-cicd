@@ -122,11 +122,11 @@ jobs:
         echo "::set-output name=terraform_plan::$(<terraform_plan/tf_plan_status.txt)"
         echo "::set-output name=terraform_apply::$(<terraform_apply/tf_apply_status.txt)"
 
-    # - name: Show the values of the outputs
-    #   run: |
-    #     echo "terraform_plan = ${{ steps.set_outputs.outputs.terraform_plan }}"
-    #     echo "terraform_apply = ${{ steps.set_outputs.outputs.terraform_apply }}"
-
+    - name: Show the values of the outputs
+      run: |
+        echo "terraform_plan = ${{ steps.set_outputs.outputs.terraform_plan }}"
+        echo "terraform_apply = ${{ steps.set_outputs.outputs.terraform_apply }}"  
+    
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
