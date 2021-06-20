@@ -59,8 +59,6 @@ jobs:
         service_account_email: ${{ secrets.GCP_SA_EMAIL }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
-      
-    - uses: actions/checkout@v2
 
     - name: Download TF Plan
       uses: actions/download-artifact@v2
