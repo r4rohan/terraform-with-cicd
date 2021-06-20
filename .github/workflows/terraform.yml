@@ -122,7 +122,7 @@ jobs:
     - name: Set the statuses of Plan and Apply as output parameters
       id: set_outputs
       run: |
-        echo "::set-output name=job.status.terraform_plan::$(<./examples/tf_apply_job_status.txt)"
+        echo "::set-output name=job.status.terraform_plan::$(<tf_apply_job_status.txt)"
         echo "::set-output name=job.status.terraform_apply::$(<tf_plan_job_status.txt)"
 
     - name: Show the values of the outputs
@@ -135,7 +135,7 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ job_status_terraform_plan }}
+        SLACK_COLOR: ${{ steps.set_outputs.outputs.job.status.terraform_plan }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
