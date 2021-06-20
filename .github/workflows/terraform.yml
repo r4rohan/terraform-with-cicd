@@ -47,8 +47,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan_status.txt
-          path: ./
-          if-no-files-found: error
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -88,13 +86,11 @@ jobs:
         rm "tf_plan"
         echo ${{ job.status }} > tf_apply_status.txt
     
-    - name: Upload TF Plan Job Status
+    - name: Upload TF Apply Job Status
       uses: actions/upload-artifact@v2
       if: always()
       with:
         name: tf_apply_status.txt
-        path: ./
-        if-no-files-found: error
 
   slack_notification:
     name: 'Slack Notification'
@@ -106,17 +102,15 @@ jobs:
     - uses: actions/checkout@v2
 
     # Download Job Status Artifacts
-    - name: Download TF Plan
-      uses: actions/download-artifact@v2
-      with:
-        name: tf_apply_status.txt
-        path: ./
-
-    - name: Download TF Plan
+    - name: Download TF Plan Status
       uses: actions/download-artifact@v2
       with:
         name: tf_plan_status.txt
-        path: ./
+
+    - name: Download TF Apply Job Status
+      uses: actions/download-artifact@v2
+      with:
+        name: tf_apply_status.txt
     
     - name: Set the statuses of Job 01 and Job 02 as output parameters
       id: set_outputs
