@@ -71,8 +71,8 @@ jobs:
       run: |
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        cd ./examples
         ls -la
+        terraform show "tf_plan"
         terraform apply "tf_plan"
         rm "tf_plan"
 
