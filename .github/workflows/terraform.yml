@@ -127,15 +127,15 @@ jobs:
 
     - name: Show the values of the outputs
       run: |
-        echo "job.status.terraform_plan = ${{ steps.set_outputs.outputs.job.status.terraform_plan }}"
-        echo "job.status.terraform_apply = ${{ steps.set_outputs.outputs.job.status.terraform_apply }}"  
+        echo "job_status_terraform_plan = ${{ steps.set_outputs.outputs.job.status.terraform_plan }}"
+        echo "job_status_terraform_apply = ${{ steps.set_outputs.outputs.job.status.terraform_apply }}"  
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: echo "::set-output name=job.status.terraform_plan::$(<./examples/tf_apply_job_status.txt.txt)"
+        SLACK_COLOR: ${{ job_status_terraform_plan }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
