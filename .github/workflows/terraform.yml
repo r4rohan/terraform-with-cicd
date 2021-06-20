@@ -124,15 +124,15 @@ jobs:
 
     - name: Show the values of the outputs
       run: |
-        echo "terraform_plan = ${{ steps.set_outputs.outputs.terraform_plan }}"
-        echo "terraform_apply = ${{ steps.set_outputs.outputs.terraform_apply }}"  
+        echo "job.status.terraform_plan = ${{ steps.set_outputs.outputs.terraform_plan }}"
+        echo "job.status.terraform_apply = ${{ steps.set_outputs.outputs.terraform_apply }}"  
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ terraform_apply }}
+        SLACK_COLOR: ${{ job.status.terraform_apply }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -143,7 +143,7 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         SLACK_CHANNEL: captain-alert
-        SLACK_COLOR: ${{ terraform_plan }}
+        SLACK_COLOR: ${{ job.status.terraform_plan }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
