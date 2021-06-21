@@ -36,12 +36,12 @@ jobs:
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           terraform plan -out "tf_plan" -input=false
       
-      - name: Upload .terraform
-        uses: actions/upload-artifact@v2
-        with:
-          name: .terraform
-          path: ./examples
-          if-no-files-found: error
+#       - name: Upload .terraform
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: .terraform
+#           path: ./examples
+#           if-no-files-found: error
 
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
@@ -81,20 +81,18 @@ jobs:
         name: tf_plan
         path: ./examples
     
-    - name: Download .terraform
-      uses: actions/download-artifact@v2
-      with:
-        name: .terraform
-        path: ./examples
+#     - name: Download .terraform
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: .terraform
+#         path: ./examples
 
     # Provision resources via Terraform        
     - name: Terraform Apply
       run: |
         ls -la 
         pwd
-        ls -la .terraform/
-        ls -la .terraform/providers/registry.terraform.io/hashicorp/google/3.68.0/linux_amd64/terraform-provider-google_v3.68.0_x5
-        chmod +x "/home/runner/work/terraform-with-cicd/terraform-with-cicd/examples/tf_plan"
+        terraform init
         terraform apply "tf_plan"
 
   slack_notification:
