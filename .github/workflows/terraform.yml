@@ -40,14 +40,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: .terraform
-          path: ./examples
+          path: .terraform
           if-no-files-found: error
 
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: ./examples
+          path: tf_plan
           if-no-files-found: error
      
       - name: Dir Str
@@ -79,13 +79,13 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: tf_plan
-        path: ./examples
+        path: tf_plan
     
     - name: Download .terraform
       uses: actions/download-artifact@v2
       with:
         name: .terraform
-        path: ./examples
+        path: .terraform
 
     # Provision resources via Terraform        
     - name: Terraform Apply
