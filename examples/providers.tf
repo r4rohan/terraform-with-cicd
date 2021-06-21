@@ -7,13 +7,12 @@ terraform {
   required_providers {
     google = {
       source = "hashicorp/google"
-      version = "3.68.0"
+      version = "3.68.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
     }
   }
 }
 
 provider "google" {
-  version = "3.68.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
   project = var.gcp_project_id
   region  = var.region
 }
