@@ -32,16 +32,13 @@ jobs:
       - name: Terraform Plan
         continue-on-error: true
         run: |
-          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-          "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+
           terraform plan -out "tf_plan" -input=false
-      
-#       - name: Upload .terraform
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: .terraform
-#           path: ./examples
-#           if-no-files-found: error
 
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
@@ -49,11 +46,6 @@ jobs:
           name: tf_plan
           path: ./examples/tf_plan
           if-no-files-found: error
-     
-      - name: Dir Str
-        run: |
-          ls -la
-          pwd
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -80,19 +72,12 @@ jobs:
       with:
         name: tf_plan
         path: ./examples
-    
-#     - name: Download .terraform
-#       uses: actions/download-artifact@v2
-#       with:
-#         name: .terraform
-#         path: ./examples
 
     # Provision resources via Terraform        
     - name: Terraform Apply
       run: |
-        ls -la 
-        pwd
-        terraform init
+        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+        "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         terraform apply "tf_plan"
 
   slack_notification:
