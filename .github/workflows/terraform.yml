@@ -89,7 +89,7 @@ jobs:
     - name: terraform apply
       uses: dflook/terraform-apply@v1
       with:
-        path: tf_plan
+        path: ./examples/tf_plan
         auto_approve: true
 
   slack_notification:
