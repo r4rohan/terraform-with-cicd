@@ -84,11 +84,15 @@ jobs:
 #         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
 #         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
 #         terraform apply --auto-approve
+    - name: Directory Str
+      run: |
+        ls -la
+        pwd
     
     - name: terraform apply
       uses: dflook/terraform-apply@v1
       with:
-        path: ./examples/tf_plan
+        path: tf_plan
         auto_approve: true
 
   slack_notification:
