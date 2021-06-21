@@ -75,6 +75,12 @@ jobs:
       with:
         name: tf_plan
         path: ./examples
+    
+    - name: Download .terraform
+      uses: actions/download-artifact@v2
+      with:
+        name: .terraform
+        path: ./examples
 
     # Provision resources via Terraform        
     - name: Terraform Apply
