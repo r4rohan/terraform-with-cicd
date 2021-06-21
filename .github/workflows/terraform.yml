@@ -36,12 +36,12 @@ jobs:
           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
           terraform plan -out "tf_plan" -input=false
       
-      - name: Upload .terraform
-        uses: actions/upload-artifact@v2
-        with:
-          name: .terraform
-          path: .terraform
-          if-no-files-found: error
+#       - name: Upload .terraform
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: .terraform
+#           path: .terraform
+#           if-no-files-found: error
 
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
@@ -81,11 +81,11 @@ jobs:
         name: tf_plan
         path: tf_plan
     
-    - name: Download .terraform
-      uses: actions/download-artifact@v2
-      with:
-        name: .terraform
-        path: .terraform
+#     - name: Download .terraform
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: .terraform
+#         path: .terraform
 
     # Provision resources via Terraform        
     - name: Terraform Apply
