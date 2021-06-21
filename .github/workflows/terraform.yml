@@ -81,8 +81,8 @@ jobs:
       run: |
         ls -la 
         pwd
-        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_apply.sh"
-        "${GITHUB_WORKSPACE}/.github/workflows/tf_apply.sh"
+        terraform show "tf_plan"
+        terraform apply "tf_plan"
 
   slack_notification:
     name: 'Slack Notification'
