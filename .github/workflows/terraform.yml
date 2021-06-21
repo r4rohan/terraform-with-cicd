@@ -37,19 +37,19 @@ jobs:
           terraform plan -input=false
         # terraform plan -out "tf_plan" -input=false
       
-      # - name: Upload .terraform
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: .terraform
-      #     path: ./examples
-      #     if-no-files-found: error
+      - name: Upload .terraform
+        uses: actions/upload-artifact@v2
+        with:
+          name: .terraform
+          path: ./examples
+          if-no-files-found: error
 
-      # - name: Upload TF Plan
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: tf_plan
-      #     path: ./examples
-      #     if-no-files-found: error
+      - name: Upload TF Plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: tf_plan
+          path: ./examples
+          if-no-files-found: error
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -71,20 +71,26 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
 
-    # - name: Download TF Plan
-    #   uses: actions/download-artifact@v2
-    #   with:
-    #     name: tf_plan
-    #     path: ./examples
+    - name: Download TF Plan
+      uses: actions/download-artifact@v2
+      with:
+        name: tf_plan
+        path: ./examples
 
     # Provision resources via Terraform        
-    - name: Terraform Apply
-      run: |
-        ls -la
-        pwd
-        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        terraform apply --auto-approve
+#     - name: Terraform Apply
+#       run: |
+#         ls -la
+#         pwd
+#         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+#         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+#         terraform apply --auto-approve
+    
+    - name: terraform apply
+      uses: dflook/terraform-apply@v1
+      with:
+        path: tf_plan
+        auto_approve: true
 
   slack_notification:
     name: 'Slack Notification'
