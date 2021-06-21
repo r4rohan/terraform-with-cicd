@@ -81,8 +81,6 @@ jobs:
       run: |
         ls -la 
         pwd
-        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_apply.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/tf_apply.sh"
 
