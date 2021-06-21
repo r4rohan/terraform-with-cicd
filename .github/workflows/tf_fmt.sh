@@ -2,4 +2,4 @@
 set -o errexit
 
 # format checking of terraform
-terraform fmt -recursive
+terraform fmt -recursive -diff
