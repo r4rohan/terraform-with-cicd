@@ -1,7 +1,7 @@
 # exit script upon any non-zero exit code
 set -o errexit
 
-source ./workflows/script.sh
+source .github/workflows/script.sh
 
 # show terraform plan file
 terraform show tf_plan
