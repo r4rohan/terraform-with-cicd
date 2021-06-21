@@ -87,8 +87,8 @@ resource "google_compute_instance" "kylo_ren" {
 }
 
 resource "google_project_iam_member" "spanner_role" {
-  role          = "roles/spanner.viewer"
-  member        = "serviceAccount:${google_service_account.kylo_ren_sa.email}"
+  role   = "roles/spanner.viewer"
+  member = "serviceAccount:${google_service_account.kylo_ren_sa.email}"
 }
 
 data "google_client_config" "google_client" {}
