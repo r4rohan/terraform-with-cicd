@@ -49,6 +49,11 @@ jobs:
           name: tf_plan
           path: ./examples
           if-no-files-found: error
+     
+      - name: Dir Str
+        run: |
+          ls -la
+          pwd
 
   terraform_apply:
     name: 'Terraform Apply'
