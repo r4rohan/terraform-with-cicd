@@ -92,7 +92,8 @@ jobs:
       run: |
         ls -la 
         pwd
-        chmod +x /home/runner/work/terraform-with-cicd/terraform-with-cicd/examples/tf_plan
+        ls -la .terraform/
+        chmod +x "/home/runner/work/terraform-with-cicd/terraform-with-cicd/examples/tf_plan"
         terraform init && terraform apply "tf_plan"
 
   slack_notification:
