@@ -4,10 +4,16 @@ terraform {
     bucket = "cloudorbit"
     prefix = "main"
   }
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "3.68.0"
+    }
+  }
 }
 
 provider "google" {
-  version = "3.51.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
+  version = "3.68.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
   project = var.gcp_project_id
   region  = var.region
 }
