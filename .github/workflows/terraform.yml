@@ -29,17 +29,12 @@ jobs:
           export_default_credentials: true
 
       # Generates an execution plan for Terraform
-#       - name: Terraform Plan
-#         continue-on-error: true
-#         run: |
-#           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-#           "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-#           terraform plan -out "tf_plan" -input=false
-
-      - name: terraform plan
-        uses: dflook/terraform-plan@v1
-        with:
-          path: ./examples/tf_plan
+      - name: Terraform Plan
+        continue-on-error: true
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+          terraform plan -out "tf_plan" -input=false
       
       - name: Upload .terraform
         uses: actions/upload-artifact@v2
@@ -82,23 +77,15 @@ jobs:
         path: ./examples
 
     # Provision resources via Terraform        
-#     - name: Terraform Apply
-#       run: |
-#         ls -la
-#         pwd
-#         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-#         "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-#         terraform apply --auto-approve
-    - name: Directory Str
+    - name: Terraform Apply
       run: |
         ls -la
         pwd
-    
-    - name: terraform apply
-      uses: dflook/terraform-apply@v1
-      with:
-        path: ./examples/tf_plan
-        auto_approve: true
+        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+        "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
+        terraform show tf_plan
+        terraform apply tf_plan
+        rm tf_plan
 
   slack_notification:
     name: 'Slack Notification'
