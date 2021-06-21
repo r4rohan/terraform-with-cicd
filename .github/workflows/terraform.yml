@@ -79,13 +79,7 @@ jobs:
     # Provision resources via Terraform        
     - name: Terraform Apply
       run: |
-        ls -la
-        pwd
-        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        "${GITHUB_WORKSPACE}/.github/workflows/script.sh"
-        terraform show tf_plan
-        terraform apply tf_plan
-        rm tf_plan
+        ls -la && pwd && chmod +x "${GITHUB_WORKSPACE}/.github/workflows/script.sh" && "${GITHUB_WORKSPACE}/.github/workflows/script.sh" && terraform show tf_plan && terraform apply tf_plan && rm tf_plan
 
   slack_notification:
     name: 'Slack Notification'
