@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: ./examples
+          path: ./examples/tf_plan
           if-no-files-found: error
      
       - name: Dir Str
