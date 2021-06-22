@@ -23,7 +23,7 @@ resource "google_project_service" "networking_api" {
   disable_on_destroy = false
 }
 
-resource "google_service_account" "kylo_ren_sa" {
+resource "google_service_account" "gce_sa" {
   account_id   = local.sa_id
   display_name = local.sa_id
 
@@ -32,7 +32,7 @@ resource "google_service_account" "kylo_ren_sa" {
   }
 }
 
-resource "google_compute_address" "kylo_ren_static_ip" {
+resource "google_compute_address" "gce_static_ip" {
   name       = local.name_static_vm_ip
   region     = local.region
   depends_on = [google_project_service.networking_api]
@@ -43,7 +43,7 @@ resource "google_compute_address" "kylo_ren_static_ip" {
   }
 }
 
-resource "google_compute_instance" "kylo_ren" {
+resource "google_compute_instance" "gce" {
   project      = var.gcp_project_id
   name         = local.instance_name
   machine_type = var.instance_machine_type
@@ -60,7 +60,7 @@ resource "google_compute_instance" "kylo_ren" {
   network_interface {
     network = var.vpc_network_name
     access_config {
-      nat_ip       = google_compute_address.kylo_ren_static_ip.address
+      nat_ip       = google_compute_address.gce_static_ip.address
       network_tier = "PREMIUM"
     }
   }
@@ -72,12 +72,12 @@ resource "google_compute_instance" "kylo_ren" {
     ]
   }
   service_account {
-    email  = google_service_account.kylo_ren_sa.email
+    email  = google_service_account.gce_sa.email
     scopes = ["cloud-platform"]
   }
   depends_on = [google_project_service.compute_api]
 
-  metadata_startup_script = "${file("${path.module}/script.sh")}"
+  metadata_startup_script = file("${path.module}/script.sh")
 
   timeouts {
     create = var.vm_instance_timeout
@@ -88,7 +88,7 @@ resource "google_compute_instance" "kylo_ren" {
 
 resource "google_project_iam_member" "spanner_role" {
   role   = "roles/spanner.viewer"
-  member = "serviceAccount:${google_service_account.kylo_ren_sa.email}"
+  member = "serviceAccount:${google_service_account.gce_sa.email}"
 }
 
 data "google_client_config" "google_client" {}

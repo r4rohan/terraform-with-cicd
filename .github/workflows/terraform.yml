@@ -21,6 +21,7 @@ jobs:
   terraform_plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name != 'pull_request'
 
     steps:
       - name: Checkout
@@ -105,15 +106,15 @@ jobs:
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_FOOTER: 'Terraform Github Actions Alert'
+        SLACK_FOOTER: 'Terraform Github Actions Main Branch Alert'
     
     - name: Plan Slack Notification
       uses: rtCamp/action-slack-notify@v2
-      if: github.event_name == 'pull_request'
+      if: github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
         SLACK_COLOR: ${{ needs.terraform_plan.result }}
         SLACK_TITLE: ${{ github.repository }}
         SLACK_MESSAGE: ${{ github.event.head_commit.message }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_FOOTER: 'Terraform Github Actions Alert'
+        SLACK_FOOTER: 'Terraform Github Actions Feature Branch Push Alert'
