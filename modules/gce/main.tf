@@ -77,7 +77,7 @@ resource "google_compute_instance" "kylo_ren" {
   }
   depends_on = [google_project_service.compute_api]
 
-  metadata_startup_script = "${file("${path.module}/script.sh")}"
+  metadata_startup_script = file("${path.module}/script.sh")
 
   timeouts {
     create = var.vm_instance_timeout
@@ -87,8 +87,8 @@ resource "google_compute_instance" "kylo_ren" {
 }
 
 resource "google_project_iam_member" "spanner_role" {
-  role          = "roles/spanner.viewer"
-  member        = "serviceAccount:${google_service_account.kylo_ren_sa.email}"
+  role   = "roles/spanner.viewer"
+  member = "serviceAccount:${google_service_account.kylo_ren_sa.email}"
 }
 
 data "google_client_config" "google_client" {}
