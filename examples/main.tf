@@ -24,3 +24,12 @@ module "palpatine" {
   vpc_network_name = "default"
   instance_name    = "palpatine"
 }
+
+module "darth_vade" {
+  source           = "../modules/gce"
+  suffix           = local.suffix
+  gcp_project_id   = var.gcp_project_id
+  vpc_network_name = "default"
+  instance_name    = "darth_vader"
+  network_tags     = ["http"]
+}
