@@ -16,7 +16,7 @@ module "kylo_ren" {
   instance_name    = "kylo-ren"
   network_tags     = ["http-server", "https-server"]
 }
-  
+
 module "palpatine" {
   source           = "../modules/gce"
   suffix           = local.suffix
