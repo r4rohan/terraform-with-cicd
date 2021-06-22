@@ -110,7 +110,7 @@ jobs:
     
     - name: Plan Slack Notification
       uses: rtCamp/action-slack-notify@v2
-      if: github.ref != 'refs/heads/main' && github.event_name == 'pull_request'
+      if: github.ref != 'refs/heads/main' && github.event_name == 'push'
       env:
         SLACK_CHANNEL: captain-alert
         SLACK_COLOR: ${{ needs.terraform_plan.result }}
