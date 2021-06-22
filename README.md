@@ -5,4 +5,4 @@ Follow Medium blog for steps: https://rohankalhans.medium.com/automating-terrafo
 
 Clap and share if you find it useful.
 
-_Contributing are most welcome_
+_Contributions are most welcome_
