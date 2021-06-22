@@ -1,4 +1,3 @@
-# terraform-with-cicd
-Automation of resource provisioning with Terraform via CICD tools.
+# Automating Terraform with GitHub Actions
 
-Follow Medium blog for steps: under development
+Follow Medium blog for steps: https://rohankalhans.medium.com/automating-terraform-with-github-actions-5b3aac5abea7
