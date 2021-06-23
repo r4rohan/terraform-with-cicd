@@ -42,6 +42,9 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
 
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          
           terraform plan -out "tf_plan" -input=false
 
       - name: Upload TF Plan
@@ -50,6 +53,7 @@ jobs:
           name: tf_plan
           path: ./examples/tf_plan
           if-no-files-found: error
+          retention-days: 1
 
   terraform_apply:
     name: 'Terraform Apply'

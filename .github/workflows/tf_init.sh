@@ -1,4 +1,4 @@
-# exit script upon any non-zero exit code
+# exit if any of the commands fails
 set -o errexit
 
 # initialization of terraform
