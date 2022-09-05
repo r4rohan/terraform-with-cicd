@@ -32,7 +32,7 @@ jobs:
         with:
             #          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
             #          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          service_account: ${{ secrets.GCP_SA_EMAIL }}
+            #          service_account: ${{ secrets.GCP_SA_EMAIL }}
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Setup GCP Service Account
@@ -40,6 +40,10 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
+
+    
+      - name: 'Use gcloud CLI2'
+        run: 'gcloud iam service-accounts list'
 
     
           # Generates an execution plan for Terraform
