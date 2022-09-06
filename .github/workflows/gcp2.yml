@@ -108,7 +108,9 @@ jobs:
         "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         terraform show "tf_plan"
         terraform apply "tf_plan"
+        date
         terraform state list
+        for each in $(terraform state list); do terraform state show $each; done
 
         #  slack_notification:
         #    name: 'Slack Notification'
