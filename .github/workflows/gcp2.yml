@@ -1,9 +1,9 @@
 name: terraform-automation
 
-  #on: 
-  #push:
-  #  paths:
-  #  - 'examples/**'
+on: 
+  push:
+    paths:
+    - 'gcp2/**'
 
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
@@ -12,7 +12,7 @@ concurrency:
 defaults:
   run:
     shell: bash
-    working-directory: ./examples
+    working-directory: ./gcp2
 
 jobs:
   terraform_plan:
@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: ./examples/tf_plan
+          path: ./gcp2/tf_plan
           if-no-files-found: error
           retention-days: 1
 
@@ -99,7 +99,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: tf_plan
-        path: ./examples
+        path: ./gcp2
 
     # Provision resources via Terraform        
     - name: Terraform Apply

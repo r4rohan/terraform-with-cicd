@@ -1,9 +1,9 @@
 name: terraform-automation
 
-  #on: 
-  #push:
-  #  paths:
-  #  - 'examples/**'
+on: 
+  push:
+    paths:
+    - 'examples/**'
 
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
