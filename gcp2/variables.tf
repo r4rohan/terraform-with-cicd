@@ -14,7 +14,7 @@ variable "region" {
 
 variable "zone" {
   type        = string
-  default     = "us-east1-a"
+  default     = "us-east1-b"
   description = "Zone where the GCE VM Instance resides."
 }
 
