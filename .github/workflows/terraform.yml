@@ -87,8 +87,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: Setup GCP Service Account
-      uses: google-github-actions/authv0
+    - name: Auth GCP Service Account
+      uses: google-github-actions/auth@v0
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
