@@ -56,7 +56,7 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
           echo "$(date +%s)"
-
+          ls -latr "${GITHUB_WORKSPACE}/.github/workflows/"
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
           echo "$(date +%s)"
