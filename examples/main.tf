@@ -30,11 +30,12 @@
 #
 #
 #
-#resource "random_string" "launch_id" {
-#  length  = 4
-#  special = false
-#  upper   = false
-#}
+resource "random_string" "launch_id" {
+  count   = var.active ? 1 : 0
+  length  = 4
+  special = false
+  upper   = false
+}
 ##
 ##locals {
 ##  suffix = format("%s-%s", "tf", random_string.launch_id.result)

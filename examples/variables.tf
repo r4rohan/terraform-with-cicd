@@ -17,3 +17,8 @@ variable "zone" {
   default     = "us-central1-c"
   description = "Zone where the GCE VM Instance resides."
 }
+
+variable "active" {
+  type        = boolean
+  default     = true
+  description = "Create resources if true, delete if false.
