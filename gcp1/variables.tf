@@ -20,6 +20,6 @@ variable "zone" {
 
 variable "active" {
   type        = bool
-  default     = true
+  default     = false 
   description = "Create resources if true, delete if false."
 }
