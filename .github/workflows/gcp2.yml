@@ -108,6 +108,7 @@ jobs:
         "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         terraform show "tf_plan"
         terraform apply "tf_plan"
+        terraform state list
 
         #  slack_notification:
         #    name: 'Slack Notification'
