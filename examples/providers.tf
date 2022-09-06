@@ -1,7 +1,8 @@
 terraform {
   required_version = ">= 0.13.1" # see https://releases.hashicorp.com/terraform/
   backend "gcs" {
-    bucket = "cloudorbit"
+#must be configured prior to starting this
+    bucket = "tfgagcpbucket"
     prefix = "main"
   }
   required_providers {
