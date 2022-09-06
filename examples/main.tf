@@ -7,7 +7,7 @@ resource "google_compute_instance" "vm_instance" {
   name         = "terraform-instance"
   machine_type = "e2-micro"
   tags         = ["ssh"]
-  depends_on = [google_compute_network.vpc_network]
+  depends_on   = [google_compute_network.vpc_network]
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
@@ -22,8 +22,8 @@ resource "google_compute_instance" "vm_instance" {
   }
   metadata_startup_script = "echo hi > /test.txt"
   metadata = {
-#    ssh-keys = join("\n", [for user, key in var.ssh_keys : "${user}:${key}"])
-#  ssh-keys = "boster:${file("boster.pub")}"
+    #    ssh-keys = join("\n", [for user, key in var.ssh_keys : "${user}:${key}"])
+    #  ssh-keys = "boster:${file("boster.pub")}"
   }
 
 }
