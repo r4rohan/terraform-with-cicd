@@ -88,9 +88,12 @@ jobs:
       uses: actions/checkout@master
 
     - name: Setup GCP Service Account
-      uses: google-github-actions/setup-gcloud@v0
+      uses: google-github-actions/authv0
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Setup GCP Service Account
+      uses: google-github-actions/setup-gcloud@v0
 
     - name: Download TF Plan
       uses: actions/download-artifact@v2
