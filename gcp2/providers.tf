@@ -3,7 +3,7 @@ terraform {
   backend "gcs" {
     #must be configured prior to starting this
     #bucket = "tfgagcpbucket"
-    bucket = var.bucketname
+    bucket = "gcp2_bucket"
     prefix = "main"
   }
   required_providers {

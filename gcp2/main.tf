@@ -1,35 +1,36 @@
-#resource "google_compute_network" "vpc_network" {
-#  name                    = "terraform-network"
-#  auto_create_subnetworks = "true"
-#}
-#
-#resource "google_compute_instance" "vm_instance" {
-#  name         = "terraform-instance"
-#  machine_type = "e2-micro"
-#  tags         = ["ssh"]
-#  depends_on   = [google_compute_network.vpc_network]
-#  boot_disk {
-#    initialize_params {
-#      image = "debian-cloud/debian-11"
-#    }
-#  }
-#
-#  network_interface {
-#    # A default network is created for all GCP projects
-#    network = "terraform-network"
-#    access_config {
-#    }
-#  }
-#  metadata_startup_script = "echo hi > /test.txt"
-#  metadata = {
-#    #    ssh-keys = join("\n", [for user, key in var.ssh_keys : "${user}:${key}"])
-#    #  ssh-keys = "boster:${file("boster.pub")}"
-#  }
-#
-#}
-#
-#
-#
+resource "google_compute_network" "vpc_network" {
+  count                   = var.active ? 1 : 0
+  name                    = "terraform-network"
+  auto_create_subnetworks = "true"
+}
+
+resource "google_compute_instance" "vm_instance" {
+  count        = var.active ? 1 : 0
+  name         = "terraform-instance"
+  machine_type = "e2-micro"
+  tags         = ["ssh"]
+  depends_on   = [google_compute_network.vpc_network]
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "terraform-network"
+    access_config {
+    }
+  }
+  metadata_startup_script = "echo hi > /test.txt"
+  metadata = {
+    #    ssh-keys = join("\n", [for user, key in var.ssh_keys : "${user}:${key}"])
+    #  ssh-keys = "boster:${file("boster.pub")}"
+  }
+
+}
+
+
+
 resource "random_string" "launch_id" {
   count   = var.active ? 1 : 0
   length  = 4
