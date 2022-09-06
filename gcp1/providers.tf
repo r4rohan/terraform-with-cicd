@@ -3,7 +3,7 @@ terraform {
   backend "gcs" {
     #must be configured prior to starting this
     bucket = "tfgagcpbucket"
-    prefix = var.gcp_project_id
+    prefix = "gcp1"
   }
   required_providers {
     google = {

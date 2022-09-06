@@ -1,4 +1,4 @@
-name: terraform-automation
+name: gcp1
 
 on: 
   push:
