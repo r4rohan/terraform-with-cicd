@@ -7,5 +7,4 @@ allow {
   }
   target_tags = ["ssh"]
   source_ranges = ["76.230.87.139/32"]
-  }
-~         
+}
