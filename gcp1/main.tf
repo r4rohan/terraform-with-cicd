@@ -17,7 +17,7 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   network_interface {
-    count     = var.active ? 1 : 0
+    count   = var.active ? 1 : 0
     network = "terraform-network"
     access_config {
     }
