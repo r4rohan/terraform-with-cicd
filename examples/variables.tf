@@ -22,3 +22,4 @@ variable "active" {
   type        = boolean
   default     = true
   description = "Create resources if true, delete if false."
+}
