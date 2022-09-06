@@ -52,15 +52,18 @@ jobs:
         run: |
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
-
+          echo "$(date +%s)"
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+          echo "$(date +%s)"
 
           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
+          echo "$(date +%s)"
           
            chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          echo "$(date +%s)"
           
           terraform plan -out "tf_plan" -input=false
 
