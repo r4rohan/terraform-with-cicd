@@ -2,10 +2,9 @@
 #  suffix = format("%s-%s", "tf", random_string.launch_id.result)
 #}
 
-module "gcp1" {
+module "gcp" {
   source = "../modules/gcp"
 
-  active = false
   #active = var.active
   #suffix           = local.suffix
   #source           = "../modules/gcp"

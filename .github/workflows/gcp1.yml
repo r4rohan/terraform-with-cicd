@@ -44,6 +44,9 @@ jobs:
     
       - name: 'Use gcloud CLI2'
         run: 'gcloud iam service-accounts list'
+      
+      - name: 'Terraform Version'
+        run: 'terraform version'
 
     
           # Generates an execution plan for Terraform
