@@ -1,9 +1,10 @@
-locals {
-  suffix = format("%s-%s", "tf", random_string.launch_id.result)
-}
+#locals {
+#  suffix = format("%s-%s", "tf", random_string.launch_id.result)
+#}
 
 module "gcp1" {
   source = "../modules/gcp"
+  active = "{var.active}"
   #suffix           = local.suffix
   #source           = "../modules/gcp"
   #gcp_project_id   = var.gcp_project_id
