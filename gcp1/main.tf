@@ -4,7 +4,7 @@ locals {
 
 module "gcp1" {
   source           = "../modules/gcp"
-  suffix           = local.suffix
+  #suffix           = local.suffix
   gcp_project_id   = var.gcp_project_id
   vpc_network_name = "default"
   instance_name    = "gcp1"

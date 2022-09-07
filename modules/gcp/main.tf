@@ -1,12 +1,25 @@
+locals {
+  instance_name = format("%s-%s", var.instance_name, var.suffix)
+  region        = data.google_client_config.google_client.region
+  zone          = format("%s-%s", local.region, var.zone)
+  network_tags  = tolist(toset(var.network_tags))
+
+  name_static_vm_ip = format("%s-ext-ip-%s", var.instance_name, var.suffix)
+
+  sa_id = format("%s-sa-%s", var.instance_name, var.suffix)
+}
+
+
 resource "google_compute_network" "vpc_network" {
   count                   = var.active ? 1 : 0
-  name                    = "terraform-network"
+  #name                    = "terraform-network"
+  name                    = "${var.gcp_project_id}-network"
   auto_create_subnetworks = "true"
 }
 
 resource "google_compute_instance" "vm_instance" {
   count        = var.active ? 1 : 0
-  name         = "terraform-instance"
+  name         = "${var.gcp_project_id}-instance"
   machine_type = "e2-micro"
   tags         = ["ssh"]
   depends_on   = [google_compute_network.vpc_network]
@@ -17,7 +30,7 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   network_interface {
-    network = "terraform-network"
+    network = "${var.gcp_project_id}-network"
     access_config {
     }
   }
