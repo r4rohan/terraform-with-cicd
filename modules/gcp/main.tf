@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.13.1" # see https://releases.hashicorp.com/terraform/
+}
+
 locals {
   instance_name = format("%s-%s", var.instance_name, var.suffix)
   region        = data.google_client_config.google_client.region
