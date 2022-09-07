@@ -5,7 +5,7 @@
 module "gcp" {
   source = "../modules/gcp"
 
-  #active = var.active
+  active = var.active
   #suffix           = local.suffix
   #source           = "../modules/gcp"
   #gcp_project_id   = var.gcp_project_id
