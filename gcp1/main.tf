@@ -4,6 +4,8 @@
 
 module "gcp1" {
   source = "../modules/gcp"
+
+  active = false
   #active = var.active
   #suffix           = local.suffix
   #source           = "../modules/gcp"
