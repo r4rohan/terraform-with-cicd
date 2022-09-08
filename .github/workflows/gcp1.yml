@@ -21,7 +21,11 @@ jobs:
         directory: [gcp1, gcp2, gcp3]
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name != 'pull_request'
+    defaults:
+      run:
+        working-directory: ./gcp1
+
+if: github.event_name == 'push' || github.event_name != 'pull_request'
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -50,7 +54,6 @@ jobs:
       
       - name: 'Terraform Version'
         run: 'terraform version'
-          working-directory: ./${{matrix.directory}}
 
     
           # Generates an execution plan for Terraform
