@@ -89,7 +89,6 @@ jobs:
     strategy:
       matrix:
         directory: [gcp1, gcp2, gcp3]
-'Terraform Apply'
     runs-on: ubuntu-latest
     needs: terraform_plan
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
