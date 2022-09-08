@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./gcp1
+        working-directory: ./${{matrix.directory}}
 
     if: github.event_name == 'push' || github.event_name != 'pull_request'
     permissions:
