@@ -25,7 +25,7 @@ jobs:
       run:
         working-directory: ./gcp1
 
-if: github.event_name == 'push' || github.event_name != 'pull_request'
+    if: github.event_name == 'push' || github.event_name != 'pull_request'
     permissions:
       contents: 'read'
       id-token: 'write'
