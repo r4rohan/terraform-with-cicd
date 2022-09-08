@@ -3,14 +3,13 @@
 #}
 
 module "gcp" {
-  source = "../modules/gcp"
-
-  active = var.active
+  #source = "../modules/gcp"
+  active           = var.active
+  source           = "../modules/gcp"
+  gcp_project_id   = var.gcp_project_id
+  vpc_network_name = "default"
+  instance_name    = "gcp1"
+  network_tags     = ["http-server", "https-server", "horse"]
   #suffix           = local.suffix
-  #source           = "../modules/gcp"
-  #gcp_project_id   = var.gcp_project_id
-  #vpc_network_name = "default"
-  #instance_name    = "gcp1"
-  #network_tags     = ["http-server", "https-server", "horse"]
 }
 
