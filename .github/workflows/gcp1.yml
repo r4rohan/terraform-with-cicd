@@ -12,7 +12,7 @@ concurrency:
 defaults:
   run:
     shell: bash
-    working-directory: ./gcp1
+      #working-directory: ./gcp1
 
 jobs:
   terraform_plan:
@@ -50,7 +50,7 @@ jobs:
       
       - name: 'Terraform Version'
         run: 'terraform version'
-          #working-directory: ./${{matrix.directory}}
+          working-directory: ./${{matrix.directory}}
 
     
           # Generates an execution plan for Terraform
