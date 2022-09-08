@@ -85,7 +85,7 @@ jobs:
           retention-days: 1
 
   terraform_apply:
-    name:   terraform_plan:
+    name: 'Terraform Apply'
     strategy:
       matrix:
         directory: [gcp1, gcp2, gcp3]
