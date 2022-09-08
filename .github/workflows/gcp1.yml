@@ -50,7 +50,7 @@ jobs:
       
       - name: 'Terraform Version'
         run: 'terraform version'
-          working-directory: ./${{matrix.directory}}
+          #working-directory: ./${{matrix.directory}}
 
     
           # Generates an execution plan for Terraform
