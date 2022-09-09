@@ -1,3 +1,12 @@
+#Work flow
+Create a branch
+make changes to branch 
+push branch
+if all checks pass,open PR to staging
+run tests on staging
+if it passes, open PR from staging to main
+merge main
+
 # Automating Terraform with GitHub Actions
 
 [![terraform-automation](https://github.com/r4rohan/terraform-with-cicd/actions/workflows/terraform.yml/badge.svg?branch=main)](https://github.com/r4rohan/terraform-with-cicd/actions/workflows/terraform.yml)
