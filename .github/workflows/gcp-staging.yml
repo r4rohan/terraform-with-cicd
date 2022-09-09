@@ -1,8 +1,8 @@
 name: gcp-staging
 
 on:
-  branches: [staging]
   push:
+    branches: [staging]
     paths:
     - 'gcp*/**'
 

@@ -1,10 +1,10 @@
 name: gcp-feature
 
 on:
-  branches-ignore: 
-    - staging
-    - main
   push:
+    branches-ignore: 
+      - staging
+      - main
     paths:
     - 'gcp*/**'
 
