@@ -1,53 +1,15 @@
-resource "google_compute_network" "vpc_network" {
-  count                   = var.active ? 1 : 0
-  name                    = "terraform-network"
-  auto_create_subnetworks = "true"
+#locals {
+#  suffix = format("%s-%s", "tf", random_string.launch_id.result)
+#}
+
+module "gcp" {
+  #source = "../modules/gcp"
+  active           = var.active
+  source           = "../modules/gcp"
+  gcp_project_id   = var.gcp_project_id
+  vpc_network_name = "${gcp_instance_id}-default"
+  instance_name    = var.gcp_instance_id
+  network_tags     = var.tags
+  #suffix           = local.suffix
 }
 
-resource "google_compute_instance" "vm_instance" {
-  count        = var.active ? 1 : 0
-  name         = "terraform-instance"
-  machine_type = "e2-micro"
-  tags         = ["ssh"]
-  depends_on   = [google_compute_network.vpc_network]
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-11"
-    }
-  }
-
-  network_interface {
-    network = "terraform-network"
-    access_config {
-    }
-  }
-  metadata_startup_script = "echo hi > /test.txt"
-  metadata = {
-    #    ssh-keys = join("\n", [for user, key in var.ssh_keys : "${user}:${key}"])
-    #  ssh-keys = "boster:${file("boster.pub")}"
-  }
-
-}
-
-
-
-resource "random_string" "launch_id" {
-  count   = var.active ? 1 : 0
-  length  = 4
-  special = false
-  upper   = false
-}
-##
-##locals {
-##  suffix = format("%s-%s", "tf", random_string.launch_id.result)
-##}
-##
-##module "kylo_ren" {
-##  source           = "../modules/gce"
-##  suffix           = local.suffix
-##  gcp_project_id   = var.gcp_project_id
-##  vpc_network_name = "default"
-##  instance_name    = "kylo-ren"
-##  network_tags     = ["http-server", "https-server", "horse"]
-##}
-##

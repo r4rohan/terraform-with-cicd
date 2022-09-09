@@ -2,9 +2,8 @@ terraform {
   required_version = ">= 0.13.1" # see https://releases.hashicorp.com/terraform/
   backend "gcs" {
     #must be configured prior to starting this
-    #bucket = "tfgagcpbucket"
-    bucket = "gcp2_bucket"
-    prefix = "main"
+    bucket = "tfgagcpbucket"
+    prefix = "gcp1"
   }
   required_providers {
     google = {

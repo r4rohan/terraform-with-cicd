@@ -6,6 +6,12 @@ variable "gcp_project_id" {
   description = "Id of the GCP project"
 }
 
+variable "gcp_instance_id" {
+  type        = string
+  default     = "gcp2"
+  description = "Id of the GCP project"
+}
+
 variable "region" {
   type        = string
   default     = "us-east1"
@@ -23,3 +29,7 @@ variable "active" {
   default     = false
   description = "Create resources if true, delete if false."
 }
+variable "tags" {
+  default = ["http-server", "https-server", "horse"]
+}
+
