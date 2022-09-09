@@ -91,7 +91,8 @@ jobs:
     name: 'Terraform Apply'
     strategy:
       matrix:
-        directory: [gcp1, gcp2, gcp3]
+        directory: [gcp1]
+          #directory: [gcp1, gcp2, gcp3]
     runs-on: ubuntu-latest
     needs: terraform_plan
     defaults:
