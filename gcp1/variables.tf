@@ -30,6 +30,6 @@ variable "active" {
   description = "Create resources if true, delete if false."
 }
 variable "tags" {
-  default = ["http-server", "https-server", var.gcp_instance_id]
+  default = ["http-server", "https-server"]
 }
 
