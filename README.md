@@ -7,6 +7,10 @@ run tests on staging
 if it passes, open PR from staging to main
 merge main
 
+
+Project directories
+Each new project needs to have (at a minimum) the directory name (in providers.tf) and the gcp_instance_id (in variables.tf) and a variable "active"
+
 # Automating Terraform with GitHub Actions
 
 [![terraform-automation](https://github.com/r4rohan/terraform-with-cicd/actions/workflows/terraform.yml/badge.svg?branch=main)](https://github.com/r4rohan/terraform-with-cicd/actions/workflows/terraform.yml)
