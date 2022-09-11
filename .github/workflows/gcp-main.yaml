@@ -58,6 +58,11 @@ jobs:
       - name: 'Terraform Version'
         run: 'terraform version'
 
+      - name: 'Terraform show'
+        run: 'terraform show'
+
+    
+
       - name: 'Terraform unlock'
         run: 'terraform force-unlock -force'
 
