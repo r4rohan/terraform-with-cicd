@@ -58,15 +58,6 @@ jobs:
       - name: 'Terraform Version'
         run: 'terraform version'
 
-      - name: 'Terraform show'
-        run: 'terraform show'
-
-    
-
-      - name: 'Terraform unlock'
-        run: 'terraform force-unlock -force'
-
-    
           # Generates an execution plan for Terraform
       - name: Terraform Plan
         continue-on-error: true
@@ -86,6 +77,8 @@ jobs:
           "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           echo "$(date +%s)"
           
+          terraform show
+          terraform force-unlock -force
           #terraform plan -out "tf_plan" -input=false
           terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
           ls -latr
