@@ -78,7 +78,7 @@ jobs:
           echo "$(date +%s)"
           
           terraform show
-          terraform force-unlock -force
+          #terraform force-unlock -force
           #terraform plan -out "tf_plan" -input=false
           terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
           ls -latr
