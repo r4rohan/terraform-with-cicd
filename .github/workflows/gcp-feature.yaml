@@ -18,6 +18,7 @@ concurrency:
 defaults:
   run:
     shell: bash
+      #working-directory: ./gcp1
 
 jobs:
   terraform_plan:
