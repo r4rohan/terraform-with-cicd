@@ -89,7 +89,7 @@ jobs:
           #name: tf_plan
           name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
           #path: ./${{matrix.directory}}/tf_plan
-          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${env.BRANCH}}
+          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
           if-no-files-found: error
           retention-days: 1
 
@@ -135,7 +135,7 @@ jobs:
         #terraform show "tf_plan"
         #terraform apply -lock-timeout=60s "tf_plan"
         terraform show "tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}"
-        terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${env.BRANCH}}"
+        terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${{env.BRANCH}}"
 
 
         #  slack_notification:
