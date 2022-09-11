@@ -51,52 +51,52 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
-    
-      - name: 'Use gcloud CLI2'
-        run: 'gcloud iam service-accounts list'
-      
-      - name: 'Terraform Version'
-        run: 'terraform version'
-
-    
-          # Generates an execution plan for Terraform
-      - name: Terraform Plan
-        continue-on-error: true
-        run: |
-          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
-          "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
-          echo "$(date +%s)"
-          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
-          "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
-          echo "$(date +%s)"
-          ls -latr "${GITHUB_WORKSPACE}/.github/workflows/"
-          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
-          "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
-          echo "$(date +%s)"
-          
-           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
-          "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
-          echo "$(date +%s)"
-          
-          echo "$(date +%s)"
-          echo "attempting removal of statelock"
-          LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
-          echo $LOCKID
-          if [[ $LOCKID != "" ]]; then
-            terraform force-unlock -force $LOCKID
-          fi
-          echo "end of attempted removal of statelock"
-
-          terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
-          ls -latr
-
-
-
-     - name: Upload TF Plan
-        uses: actions/upload-artifact@v2
-        with:
-          name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
-          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
-          if-no-files-found: error
-          retention-days: 1
-
+          #    
+          #      - name: 'Use gcloud CLI2'
+          #        run: 'gcloud iam service-accounts list'
+          #      
+          #      - name: 'Terraform Version'
+          #        run: 'terraform version'
+          #
+          #    
+          #          # Generates an execution plan for Terraform
+          #      - name: Terraform Plan
+          #        continue-on-error: true
+          #        run: |
+          #          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+          #          "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+          #          echo "$(date +%s)"
+          #          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+          #          "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+          #          echo "$(date +%s)"
+          #          ls -latr "${GITHUB_WORKSPACE}/.github/workflows/"
+          #          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
+          #          "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
+          #          echo "$(date +%s)"
+          #          
+          #           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          #          "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          #          echo "$(date +%s)"
+          #          
+          #          echo "$(date +%s)"
+          #          echo "attempting removal of statelock"
+          #          LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
+          #          echo $LOCKID
+          #          if [[ $LOCKID != "" ]]; then
+          #            terraform force-unlock -force $LOCKID
+          #          fi
+          #          echo "end of attempted removal of statelock"
+          #
+          #          terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
+          #          ls -latr
+          #
+          #
+          #
+          #     - name: Upload TF Plan
+          #        uses: actions/upload-artifact@v2
+          #        with:
+          #          name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
+          #          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
+          #          if-no-files-found: error
+          #          retention-days: 1
+          #
