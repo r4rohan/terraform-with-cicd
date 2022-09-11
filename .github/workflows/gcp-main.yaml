@@ -76,11 +76,14 @@ jobs:
            chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           echo "$(date +%s)"
-          
+          echo "attempting removal of statelock"
           LOCKID=$(terraform show |grep ID |awk '{print $2}')
+          echo $LOCKID
           if [[ $LOCKID != "" ]]; then
             terraform force-unlock -force $LOCKID
           fi
+          echo "end of attempted removal of statelock"
+
           #terraform plan -out "tf_plan" -input=false
           terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
           ls -latr
