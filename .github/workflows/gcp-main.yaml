@@ -78,6 +78,7 @@ jobs:
           
           #terraform plan -out "tf_plan" -input=false
           terraform plan -out "tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}" -input=false
+          ls -latr
 
 
       - name: Upload TF Plan
