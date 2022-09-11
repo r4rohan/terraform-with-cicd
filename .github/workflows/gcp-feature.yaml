@@ -100,6 +100,3 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-            #if it passes checks, open a PR to staging
-
-
