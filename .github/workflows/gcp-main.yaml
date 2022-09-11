@@ -6,6 +6,8 @@ on:
     paths:
     - 'gcp*/**'
 
+env:
+  BRANCH: ${{ github.head_ref || github.ref_name }} 
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
   cancel-in-progress: true
@@ -77,7 +79,7 @@ jobs:
           echo "$(date +%s)"
           
           #terraform plan -out "tf_plan" -input=false
-          terraform plan -out "tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}" -input=false
+          terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
           ls -latr
 
 
@@ -85,9 +87,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           #name: tf_plan
-          name: tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}
+          name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
           #path: ./${{matrix.directory}}/tf_plan
-          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}
+          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${env.BRANCH}}
           if-no-files-found: error
           retention-days: 1
 
@@ -122,7 +124,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         #name: tf_plan
-        name: tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}
+        name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
         path: ./${{matrix.directory}}
 
     # Provision resources via Terraform        
@@ -133,7 +135,7 @@ jobs:
         #terraform show "tf_plan"
         #terraform apply -lock-timeout=60s "tf_plan"
         terraform show "tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}"
-        terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}"
+        terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${env.BRANCH}}"
 
 
         #  slack_notification:
