@@ -91,12 +91,12 @@ jobs:
           ls -latr
 
 
-          #
-          #     - name: Upload TF Plan
-          #        uses: actions/upload-artifact@v2
-          #        with:
-          #          name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
-          #          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
-          #          if-no-files-found: error
-          #          retention-days: 1
-          #
+
+      - name: Upload TF Plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
+          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
+          if-no-files-found: error
+          retention-days: 1
+
