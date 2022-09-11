@@ -11,7 +11,7 @@ resource "google_compute_network" "vpc_network" {
 
 resource "google_compute_instance" "vm_instance" {
   count        = var.active ? 1 : 0
-  name         = "${var.gcp_project_id}-instance"
+  name         = "${var.instance_name}-instance"
   machine_type = "e2-micro"
   tags         = ["ssh"]
   depends_on   = [google_compute_network.vpc_network]
