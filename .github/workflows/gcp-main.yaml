@@ -58,6 +58,9 @@ jobs:
       - name: 'Terraform Version'
         run: 'terraform version'
 
+      - name: 'Terraform unlock'
+        run: 'terraform force-unlock -force'
+
     
           # Generates an execution plan for Terraform
       - name: Terraform Plan
