@@ -77,16 +77,16 @@ jobs:
           echo "$(date +%s)"
           
           #terraform plan -out "tf_plan" -input=false
-          terraform plan -out "tf_plan-${{matrix.directory}}-${GITHUB_REF_NAME}" -input=false
+          terraform plan -out "tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}" -input=false
 
 
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
         with:
           #name: tf_plan
-          name: tf_plan-${{matrix.directory}}-${{GITHUB_REF_NAME}}
+          name: tf_plan-${{matrix.directory}}-${{GITHUB_REF##*/}}
           #path: ./${{matrix.directory}}/tf_plan
-          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{GITHUB_REF_NAME}}
+          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{GITHUB_REF##*/}}
           if-no-files-found: error
           retention-days: 1
 
@@ -121,7 +121,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         #name: tf_plan
-        name: tf_plan-${{matrix.directory}}-${{GITHUB_REF_NAME}}
+        name: tf_plan-${{matrix.directory}}-${{GITHUB_REF##*/}}
         path: ./${{matrix.directory}}
 
     # Provision resources via Terraform        
@@ -131,8 +131,8 @@ jobs:
         "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         #terraform show "tf_plan"
         #terraform apply -lock-timeout=60s "tf_plan"
-        terraform show "tf_plan-${{matrix.directory}}-${{GITHUB_REF_NAME}}"
-        terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${{GITHUB_REF_NAME}}"
+        terraform show "tf_plan-${{matrix.directory}}-${{GITHUB_REF##*/}}"
+        terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${{GITHUB_REF##*/}}"
 
 
         #  slack_notification:
