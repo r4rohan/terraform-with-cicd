@@ -72,13 +72,13 @@ jobs:
            chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           echo "$(date +%s)"
-          echo "attempting removal of statelock"
-          LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
-          echo $LOCKID
-          if [[ $LOCKID != "" ]]; then
-            terraform force-unlock -force $LOCKID
-          fi
-          echo "end of attempted removal of statelock"
+          #echo "attempting removal of statelock"
+          #LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
+          #echo $LOCKID
+          #if [[ $LOCKID != "" ]]; then
+          #  terraform force-unlock -force $LOCKID
+          #fi
+          #echo "end of attempted removal of statelock"
 
           #terraform plan -out "tf_plan" -input=false
           terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
@@ -92,6 +92,20 @@ jobs:
           path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
           if-no-files-found: error
           retention-days: 1
+
+      - name: Comment for Plan
+        uses: actions/github-script@v3
+          with:
+            github-token: ${{secrets.GITHUB_TOKEN}}
+            script: |
+              # Create comment body as Markdown
+              var msg = `👋 Thanks for participating! tf_plan-${{matrix.directory}}-${{env.BRANCH}} uploaded`
+              github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: msg
+              })
 
   terraform_apply:
     name: 'Terraform Apply'
