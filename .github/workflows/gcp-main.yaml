@@ -92,17 +92,6 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: Comment for Plan
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.pulls.createComment({
-              pull_number: context.payload.pull_request.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "Thanks for participating! tf_plan-${{matrix.directory}}-${{env.BRANCH}} uploaded"
-            })
-
   terraform_apply:
     name: 'Terraform Apply'
     strategy:
