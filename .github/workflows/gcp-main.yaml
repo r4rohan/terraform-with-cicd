@@ -99,7 +99,7 @@ jobs:
             github-token: ${{secrets.GITHUB_TOKEN}}
             script: |
               # Create comment body as Markdown
-              var msg = `👋 Thanks for participating! tf_plan-${{matrix.directory}}-${{env.BRANCH}} uploaded`
+              var msg = "👋 Thanks for participating! tf_plan-${{matrix.directory}}-${{env.BRANCH}} uploaded"
               github.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
