@@ -1,0 +1,107 @@
+name: gcp pr to main
+
+on:
+  pull_request:
+    types: [opened]
+    branches: [main]
+    paths:
+    - 'gcp*/**'
+
+env:
+  BRANCH: ${{ github.head_ref || github.ref_name }} 
+concurrency: 
+  group: ${{ github.action == 'terraform-automation' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  terraform_plan:
+    strategy:
+      matrix:
+        directory: [gcp1, gcp2, gcp3]
+    name: 'Terraform Plan'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./${{matrix.directory}}
+
+    if: github.event_name == 'push' || github.event_name != 'pull_request'
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup GCP Service Account
+        uses: google-github-actions/setup-gcloud@v0
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+    
+      - name: 'Use gcloud CLI2'
+        run: 'gcloud iam service-accounts list'
+      
+      - name: 'Terraform Version'
+        run: 'terraform version'
+
+          # Generates an execution plan for Terraform
+      - name: Terraform Plan
+        continue-on-error: true
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+          echo "$(date +%s)"
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+          echo "$(date +%s)"
+          ls -latr "${GITHUB_WORKSPACE}/.github/workflows/"
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_gcp_permcheck.sh"
+          echo "$(date +%s)"
+          
+           chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          echo "$(date +%s)"
+          #echo "attempting removal of statelock"
+          #LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
+          #echo $LOCKID
+          #if [[ $LOCKID != "" ]]; then
+          #  terraform force-unlock -force $LOCKID
+          #fi
+          #echo "end of attempted removal of statelock"
+
+          #terraform plan -out "tf_plan" -input=false
+          terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
+          ls -latr
+
+
+      - name: Upload TF Plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
+          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Comment for Plan
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.pulls.createComment({
+              pull_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Thanks for participating! tf_plan-${{matrix.directory}}-${{env.BRANCH}} uploaded"
+            })
+
+
