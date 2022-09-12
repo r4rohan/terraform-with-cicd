@@ -132,10 +132,11 @@ jobs:
       run: |
         chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
-        #terraform show "tf_plan"
-        #terraform apply -lock-timeout=60s "tf_plan"
+        echo "Terraform show"
         terraform show "tf_plan-${{matrix.directory}}-${{env.BRANCH}}"
+        echo "Terraform apply"
         terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${{env.BRANCH}}"
+        echo "End Terraform apply"
 
 
         #  slack_notification:
