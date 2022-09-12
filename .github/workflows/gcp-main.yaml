@@ -134,7 +134,7 @@ jobs:
         "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         #terraform show "tf_plan"
         #terraform apply -lock-timeout=60s "tf_plan"
-        terraform show "tf_plan-${{matrix.directory}}-${GITHUB_REF##*/}"
+        terraform show "tf_plan-${{matrix.directory}}-${{env.BRANCH}}"
         terraform apply -lock-timeout=60s "tf_plan-${{matrix.directory}}-${{env.BRANCH}}"
 
 
