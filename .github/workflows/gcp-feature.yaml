@@ -30,6 +30,7 @@ jobs:
       run:
         working-directory: ./${{matrix.directory}}
 
+
     if: github.event_name == 'push' || github.event_name != 'pull_request'
     permissions:
       contents: 'read'
@@ -91,14 +92,11 @@ jobs:
 
 
 
-     - name: Upload TF Plan
+      - name: Upload TF Plan
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
           path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
           if-no-files-found: error
           retention-days: 1
-
-            #if it passes checks, open a PR to staging
-
 
