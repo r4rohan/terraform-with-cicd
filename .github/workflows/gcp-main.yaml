@@ -10,7 +10,6 @@ env:
   BRANCH: ${{ github.head_ref || github.ref_name }} 
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
-  cancel-in-progress: true
 
 defaults:
   run:
@@ -96,10 +95,9 @@ jobs:
       - name: Comment for Plan
         uses: actions/github-script@v6
           with:
-            #github-token: ${{secrets.GITHUB_TOKEN}}
             script: |
               github.pulls.createComment({
-                pull_number: context.issue.pull_number,
+                pull_number: context.payload.pull_request.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: "Thanks for participating! tf_plan-${{matrix.directory}}-${{env.BRANCH}} uploaded"

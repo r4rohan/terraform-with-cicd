@@ -13,7 +13,6 @@ env:
 
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
-  cancel-in-progress: true
 
 defaults:
   run:
