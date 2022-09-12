@@ -74,11 +74,11 @@ jobs:
           "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           echo "$(date +%s)"
           echo "attempting removal of statelock"
-          LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
-          echo $LOCKID
-          if [[ $LOCKID != "" ]]; then
-            terraform force-unlock -force $LOCKID
-          fi
+          #LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
+          #echo $LOCKID
+          #if [[ $LOCKID != "" ]]; then
+          #  terraform force-unlock -force $LOCKID
+          #fi
           echo "end of attempted removal of statelock"
 
           #terraform plan -out "tf_plan" -input=false
