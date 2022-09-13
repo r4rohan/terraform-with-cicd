@@ -26,7 +26,7 @@ variable "zone" {
 
 variable "active" {
   type        = bool
-  default     = false
+  default     = true
   description = "Create resources if true, delete if false."
 }
 variable "tags" {
