@@ -15,7 +15,6 @@ Each new project needs to have (at a minimum) the directory name (in providers.t
 #todo
 protect main branch
 protect staging branch
-make the github actions queue up instead of cancel and run latest.
 enforce precommit hooks
 create bash aliases for creating a branch
 create bash aliases for opening a PR 
