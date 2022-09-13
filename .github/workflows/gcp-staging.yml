@@ -10,7 +10,6 @@ env:
   BRANCH: ${{ github.head_ref || github.ref_name }}
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
-  cancel-in-progress: true
 
 defaults:
   run:

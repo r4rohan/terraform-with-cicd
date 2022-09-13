@@ -22,7 +22,7 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   network_interface {
-    network = "${var.gcp_project_id}-network"
+    network = "${var.instance_name}-network"
     access_config {
     }
   }

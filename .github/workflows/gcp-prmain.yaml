@@ -1,16 +1,14 @@
-name: gcp-feature
+name: gcp pr to main
 
 on:
-  push:
-    branches-ignore: 
-      - staging
-      - main
+  pull_request:
+    types: [opened]
+    branches: [main]
     paths:
     - 'gcp*/**'
 
 env:
-  BRANCH: ${{ github.head_ref || github.ref_name }}
-
+  BRANCH: ${{ github.head_ref || github.ref_name }} 
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
 
@@ -28,7 +26,6 @@ jobs:
     defaults:
       run:
         working-directory: ./${{matrix.directory}}
-
 
     if: github.event_name == 'push' || github.event_name != 'pull_request'
     permissions:
@@ -57,7 +54,6 @@ jobs:
       - name: 'Terraform Version'
         run: 'terraform version'
 
-    
           # Generates an execution plan for Terraform
       - name: Terraform Plan
         continue-on-error: true
@@ -76,19 +72,17 @@ jobs:
            chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           echo "$(date +%s)"
-          
-          echo "$(date +%s)"
-          echo "attempting removal of statelock"
+          #echo "attempting removal of statelock"
           #LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
           #echo $LOCKID
           #if [[ $LOCKID != "" ]]; then
           #  terraform force-unlock -force $LOCKID
           #fi
-          echo "end of attempted removal of statelock"
+          #echo "end of attempted removal of statelock"
 
+          #terraform plan -out "tf_plan" -input=false
           terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
           ls -latr
-
 
 
       - name: Upload TF Plan
@@ -98,4 +92,16 @@ jobs:
           path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
           if-no-files-found: error
           retention-days: 1
+
+      - name: Comment for Plan
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.pulls.createComment({
+              pull_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Thanks for participating! tf_plan-${{matrix.directory}}-${{env.BRANCH}} uploaded"
+            })
+
 

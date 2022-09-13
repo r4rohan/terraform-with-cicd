@@ -1,18 +1,16 @@
-name: gcp-feature
+name: gcp-comment
 
 on:
-  push:
-    branches-ignore: 
-      - staging
-      - main
-    paths:
-    - 'gcp*/**'
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
 
 env:
-  BRANCH: ${{ github.head_ref || github.ref_name }}
-
+  BRANCH: ${{ github.head_ref || github.ref_name }} 
 concurrency: 
   group: ${{ github.action == 'terraform-automation' }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -25,12 +23,11 @@ jobs:
         directory: [gcp1, gcp2, gcp3]
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
+    if: ${{ github.event.comment.body == 'Unlock'}}
     defaults:
       run:
         working-directory: ./${{matrix.directory}}
 
-
-    if: github.event_name == 'push' || github.event_name != 'pull_request'
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -57,7 +54,6 @@ jobs:
       - name: 'Terraform Version'
         run: 'terraform version'
 
-    
           # Generates an execution plan for Terraform
       - name: Terraform Plan
         continue-on-error: true
@@ -76,26 +72,17 @@ jobs:
            chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
           echo "$(date +%s)"
-          
-          echo "$(date +%s)"
           echo "attempting removal of statelock"
-          #LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
-          #echo $LOCKID
-          #if [[ $LOCKID != "" ]]; then
-          #  terraform force-unlock -force $LOCKID
-          #fi
+          LOCKID=$(terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false 2>&1 |grep 'ID:' |uniq |awk '{print $4}')
+          echo $LOCKID
+          if [[ $LOCKID != "" ]]; then
+            terraform force-unlock -force $LOCKID
+          fi
           echo "end of attempted removal of statelock"
 
+          #terraform plan -out "tf_plan" -input=false
           terraform plan -out "tf_plan-${{matrix.directory}}-${{env.BRANCH}}" -input=false
           ls -latr
 
 
-
-      - name: Upload TF Plan
-        uses: actions/upload-artifact@v2
-        with:
-          name: tf_plan-${{matrix.directory}}-${{env.BRANCH}}
-          path: ./${{matrix.directory}}/tf_plan-${{matrix.directory}}-${{env.BRANCH}}
-          if-no-files-found: error
-          retention-days: 1
 
